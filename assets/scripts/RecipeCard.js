@@ -108,6 +108,10 @@ class RecipeCard extends HTMLElement {
     const thumbnail = document.createElement('img');
     thumbnail.alt = searchForKey(data, "name");
     thumbnail.src = searchForKey(data, "thumbnailUrl");
+
+    if(searchForKey(data, "thumbnailUrl") == undefined)
+      thumbnail.src = searchForKey(searchForKey(data, "image"), "url");
+
     card.appendChild(thumbnail);
 
     // Title

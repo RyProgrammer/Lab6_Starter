@@ -5,7 +5,10 @@
 const recipes = [
   'https://introweb.tech/assets/json/ghostCookies.json',
   'https://introweb.tech/assets/json/birthdayCake.json',
-  'https://introweb.tech/assets/json/chocolateChip.json'
+  'https://introweb.tech/assets/json/chocolateChip.json',
+  '/assets/recipes/3b.json',
+  '/assets/recipes/clc.json',
+  '/assets/recipes/chester.json'
 ];
 
 // Once all of the recipes that were specified above have been fetched, their
@@ -67,7 +70,7 @@ function createRecipeCards() {
 
   // Part 1 Expose - TODO
 
-  for(let i = 0; i < recipes.length; i++) {
+  for(let i = 0; i < recipes.length / 2; i++) {
     let main = document.querySelector("main");
     const recipeCard = document.createElement("recipe-card");
     recipeCard.data = recipeData[recipes[i]];
@@ -84,4 +87,26 @@ function bindShowMore() {
   // in the recipeData object where you stored them/
 
   // Part 2 Explore - TODO
+  let button = document.querySelector("button");
+
+  button.addEventListener("click", showMore);
+
+  function showMore() {
+    let main = document.querySelector("main");
+    button.textContent = button.textContent == "Show less" ? "Show more" : "Show less";
+    
+    if(button.textContent == "Show less") {
+      for(let i = recipes.length / 2; i < recipes.length; i++) {
+        const recipeCard = document.createElement("recipe-card");
+        recipeCard.data = recipeData[recipes[i]];
+        main.appendChild(recipeCard);
+      }
+    }
+    else {
+      let cards = document.querySelectorAll("recipe-card");
+      for(let i = recipes.length / 2; i < recipes.length; i++) {
+        main.removeChild(cards[i]);
+      }
+    }
+  }
 }
