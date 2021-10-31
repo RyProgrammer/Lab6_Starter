@@ -11,7 +11,7 @@ const recipes = [
 // Once all of the recipes that were specified above have been fetched, their
 // data will be added to this object below. You may use whatever you like for the
 // keys as long as it's unique, one suggestion might but the URL itself
-const recipeData = {}
+var recipeData = {}
 
 window.addEventListener('DOMContentLoaded', init);
 
@@ -30,6 +30,7 @@ async function init() {
   bindShowMore();
 }
 
+// REF: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#body
 async function fetchRecipes() {
   return new Promise((resolve, reject) => {
     // This function is called for you up above
@@ -43,6 +44,17 @@ async function fetchRecipes() {
     // in the recipes folder and fetch them from there. You'll need to add their paths to the recipes array.
 
     // Part 1 Expose - TODO
+
+    for(let i = 0; i < recipes.length; i++) {
+      fetch(recipes[i])
+        .then(response => response.json())
+        .then(data => {
+          recipeData[recipes[i]] = data;
+          if(Object.keys(recipeData).length == recipes.length)
+            resolve(true);
+        })
+        .catch(error => reject(false))
+    }
   });
 }
 
@@ -54,6 +66,13 @@ function createRecipeCards() {
   // show any others you've added when the user clicks on the "Show more" button.
 
   // Part 1 Expose - TODO
+
+  for(let i = 0; i < recipes.length; i++) {
+    let main = document.querySelector("main");
+    const recipeCard = document.createElement("recipe-card");
+    recipeCard.data = recipeData[recipes[i]];
+    main.appendChild(recipeCard);
+  }
 }
 
 function bindShowMore() {

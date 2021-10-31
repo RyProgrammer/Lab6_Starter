@@ -1,8 +1,11 @@
 class RecipeCard extends HTMLElement {
+  // REF: https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM
   constructor() {
     // Part 1 Expose - TODO
+    super();
 
     // You'll want to attach the shadow DOM here
+    this.shadow = this.attachShadow({mode: "open"})
   }
 
   set data(data) {
@@ -100,6 +103,72 @@ class RecipeCard extends HTMLElement {
     // created in the constructor()
 
     // Part 1 Expose - TODO
+
+    // Thumbnail
+    const thumbnail = document.createElement('img');
+    thumbnail.alt = searchForKey(data, "name");
+    thumbnail.src = searchForKey(data, "thumbnailUrl");
+    card.appendChild(thumbnail);
+
+    // Title
+    const title = document.createElement('p');
+    title.classList.add("title");
+    card.appendChild(title);
+
+    const titleLink = document.createElement('a');
+    titleLink.href = getUrl(data);
+    titleLink.text = searchForKey(data, "headline");
+    title.appendChild(titleLink);
+
+    // Organization
+    const org = document.createElement('p');
+    org.classList.add("organization");
+    org.textContent = getOrganization(data);
+    card.appendChild(org);
+
+    // Ratings
+    const rating = document.createElement('div');
+    rating.classList.add("rating");
+    card.appendChild(rating);
+
+    var stars = searchForKey(data, "ratingValue");
+    var rateNum = searchForKey(data, "ratingCount");
+
+    if(rateNum == 0 || rateNum == undefined) {
+      const noReviews = document.createElement('span');
+      noReviews.textContent = "No Reviews";
+      rating.appendChild(noReviews);
+    }
+    else {
+      const reviews = document.createElement('span');
+      reviews.textContent = stars;
+      rating.appendChild(reviews);
+
+      const starIcon = document.createElement('img');
+      let starsRounded = Math.round(stars);
+      starIcon.src = "/assets/images/icons/" + starsRounded + "-star.svg";
+      starIcon.alt = "5 stars";
+      rating.appendChild(starIcon);
+
+      const numReviews = document.createElement('span');
+      numReviews.textContent = "(" + rateNum + ")";
+      rating.appendChild(numReviews);
+    }
+
+    // Time
+    const time = document.createElement('time');
+    time.textContent = convertTime(searchForKey(data, "totalTime"));
+    card.appendChild(time);
+
+    // Ingredients
+    const ingredients = document.createElement('p');
+    ingredients.classList.add("ingredients");
+    ingredients.textContent = createIngredientList(searchForKey(data, "recipeIngredient"));
+    card.appendChild(ingredients);
+
+    // Final stage
+    this.shadow.appendChild(card);
+    this.shadow.appendChild(styleElem);
   }
 }
 
