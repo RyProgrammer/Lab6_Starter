@@ -121,6 +121,10 @@ class RecipeCard extends HTMLElement {
 
     const titleLink = document.createElement('a');
     titleLink.href = getUrl(data);
+
+    if(getUrl(data) == undefined)
+      titleLink.href = searchForKey(data, "@id");
+
     titleLink.text = searchForKey(data, "headline");
     title.appendChild(titleLink);
 
