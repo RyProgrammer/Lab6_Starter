@@ -150,7 +150,7 @@ class RecipeCard extends HTMLElement {
 
       const starIcon = document.createElement('img');
       let starsRounded = Math.round(stars);
-      starIcon.src = "/assets/images/icons/" + starsRounded + "-star.svg";
+      starIcon.src = "assets/images/icons/" + starsRounded + "-star.svg";
       starIcon.alt = "5 stars";
       rating.appendChild(starIcon);
 
