@@ -106,11 +106,11 @@ class RecipeCard extends HTMLElement {
 
     // Thumbnail
     const thumbnail = document.createElement('img');
-    thumbnail.alt = searchForKey(data, "name");
-    thumbnail.src = searchForKey(data, "thumbnailUrl");
+    thumbnail.setAttribute("alt", searchForKey(data, "name"));
+    thumbnail.setAttribute("src", searchForKey(data, "thumbnailUrl"));
 
     if(searchForKey(data, "thumbnailUrl") == undefined)
-      thumbnail.src = searchForKey(searchForKey(data, "image"), "url");
+      thumbnail.setAttribute("src", searchForKey(searchForKey(data, "image"), "url"));
 
     card.appendChild(thumbnail);
 
@@ -120,10 +120,10 @@ class RecipeCard extends HTMLElement {
     card.appendChild(title);
 
     const titleLink = document.createElement('a');
-    titleLink.href = getUrl(data);
+    titleLink.setAttribute("href", getUrl(data));
 
     if(getUrl(data) == undefined)
-      titleLink.href = searchForKey(data, "@id");
+      titleLink.setAttribute("href", searchForKey(data, "@id"));
 
     titleLink.text = searchForKey(data, "headline");
     title.appendChild(titleLink);
@@ -154,8 +154,8 @@ class RecipeCard extends HTMLElement {
 
       const starIcon = document.createElement('img');
       let starsRounded = Math.round(stars);
-      starIcon.src = "assets/images/icons/" + starsRounded + "-star.svg";
-      starIcon.alt = "5 stars";
+      starIcon.setAttribute("src", "assets/images/icons/" + starsRounded + "-star.svg");
+      starIcon.setAttribute("alt", "5 stars");
       rating.appendChild(starIcon);
 
       const numReviews = document.createElement('span');
